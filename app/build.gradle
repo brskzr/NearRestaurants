@@ -16,6 +16,13 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+        //Secret
+        def secretFile = rootProject.file("secret.properties")
+        def secretProperties = new Properties()
+        secretProperties.load(new FileInputStream(secretFile))
+        buildConfigField("String", "PLACES_API_KEY", secretProperties['PLACES_API_KEY'])
     }
 
     buildTypes {
@@ -33,6 +40,8 @@ android {
         jvmTarget = '1.8'
 
     }
+
+
 }
 
 dependencies {
@@ -53,15 +62,18 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$dagger_version"
 
-
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "com.squareup.retrofit2:retrofit:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:2.3.0"
     implementation 'androidx.cardview:cardview:1.0.0'
 
+    implementation 'com.google.android.libraries.places:places:2.3.0'
+    implementation "com.google.android.gms:play-services-location:17.0.0"
+    implementation 'com.karumi:dexter:6.2.1'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
