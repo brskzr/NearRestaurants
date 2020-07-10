@@ -11,16 +11,9 @@ import javax.inject.Inject
 class RestaurantsService @Inject constructor (val httpClientFactory: HttpClientFactory) : BaseService(){
 
     fun getRestaurants(): Deferred<DataResult<Restaurants?>>  {
-
         return handler.run {
-
-            val stringProvider = DefaultHttpStringsProvider()
-            val httpClientFactory = DefaultHttpClientFactory(stringProvider)
-
-            val api = httpClientFactory.create(RestaurantsRepository::class.java)
-            val result = api.getPlaces().execute().body()
-
-            result
+            var api = httpClientFactory.create(RestaurantsRepository::class.java)
+            api.getPlaces().result()
         }
     }
 }

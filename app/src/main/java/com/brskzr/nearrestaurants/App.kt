@@ -4,9 +4,6 @@ import android.app.Application
 import com.brskzr.nearrestaurants.infrastructure.di.AppComponent
 import com.brskzr.nearrestaurants.infrastructure.di.DaggerAppComponent
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 
 class App : Application() {
     val component: AppComponent by lazy {
@@ -20,7 +17,18 @@ class App : Application() {
     }
 
     private fun configure() {
+        Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler())
         Places.initialize(applicationContext, BuildConfig.PLACES_API_KEY)
+    }
+
+    inner class ExceptionHandler : Thread.UncaughtExceptionHandler{
+        override fun uncaughtException(t: Thread, e: Throwable) {
+            handleError(t, e)
+        }
+
+        private fun handleError(t: Thread, e: Throwable) {
+            System.exit(0)
+        }
     }
 }
 

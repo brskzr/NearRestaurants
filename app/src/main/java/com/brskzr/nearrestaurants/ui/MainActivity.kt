@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.brskzr.nearrestaurants.R
+import com.brskzr.nearrestaurants.infrastructure.base.BaseActivity
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -24,19 +25,15 @@ import com.karumi.dexter.listener.single.PermissionListener
 
 val TAG = "MyApp"
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    val REQUEST_CHECK_SETTINGS = 0x1
-
+    private val REQUEST_CHECK_SETTINGS = 0x1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
@@ -46,17 +43,22 @@ class MainActivity : AppCompatActivity() {
         fusedLocationClient.lastLocation
             .addOnCompleteListener { taskLocation ->
                 if (taskLocation.isSuccessful && taskLocation.result != null) {
-
                     val location = taskLocation.result
-
-                    Log.d(TAG, location?.latitude.toString())
+                    onAccessLocation(location?.latitude ?: 0.toDouble(),
+                                             location?.longitude ?: 0.toDouble())
 
                 } else {
-                    Log.d(TAG, "Error last location" + taskLocation.exception.toString())
 
                 }
             }
     }
+
+
+    fun onAccessLocation(latitude: Double, longitude: Double) {
+
+
+    }
+
 
     fun createLocationRequest() {
         val locationRequest = LocationRequest.create().apply {
