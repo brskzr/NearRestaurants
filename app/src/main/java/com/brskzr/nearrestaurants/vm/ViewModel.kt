@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class XViewModel  : ViewModel(){
+class RestaurantsViewModel  : ViewModel(){
 
 
 }
