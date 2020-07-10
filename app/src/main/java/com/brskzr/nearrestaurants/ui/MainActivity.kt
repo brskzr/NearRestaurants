@@ -144,14 +144,22 @@ class MainActivity : BaseActivity() {
 
 
     private fun getPlaces() {
+
+
+
+
         // Use fields to define the data types to return.
-        val placeFields: List<Place.Field> = listOf(Place.Field.NAME)
+        val placeFields: List<Place.Field> = listOf(Place.Field.NAME,
+                Place.Field.PHOTO_METADATAS,
+                Place.Field.LAT_LNG,
+                Place.Field.OPENING_HOURS)
 
         // Use the builder to create a FindCurrentPlaceRequest.
         val request: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFields)
         val placesClient = Places.createClient(this)
 
         val placeResponse = placesClient.findCurrentPlace(request)
+
         placeResponse.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val response = task.result
