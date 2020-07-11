@@ -6,6 +6,9 @@ import com.brskzr.nearrestaurants.infrastructure.di.DaggerAppComponent
 import com.google.android.libraries.places.api.Places
 
 class App : Application() {
+
+    val location = Location()
+
     val component: AppComponent by lazy {
         DaggerAppComponent.factory().create(this.applicationContext)
     }
@@ -29,6 +32,11 @@ class App : Application() {
         private fun handleError(t: Thread, e: Throwable) {
             System.exit(0)
         }
+    }
+
+    class Location {
+        var longitude: Double = 0.toDouble()
+        var latitude: Double = 0.toDouble()
     }
 }
 
