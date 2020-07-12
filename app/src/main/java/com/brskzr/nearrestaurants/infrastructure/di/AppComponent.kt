@@ -18,6 +18,4 @@ interface AppComponent {
     }
 
     fun inject(mainActivity: MainActivity)
-
-    fun inject(restaurantsFragment: RestaurantsFragment)
 }

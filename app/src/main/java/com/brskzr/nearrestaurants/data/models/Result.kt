@@ -16,5 +16,6 @@ data class Result(
     val scope: String,
     val types: List<String>,
     val user_ratings_total: Int,
-    val vicinity: String
+    val vicinity: String,
+    var isViewed: Boolean
 )

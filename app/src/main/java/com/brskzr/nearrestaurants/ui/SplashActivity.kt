@@ -82,20 +82,10 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun onAccessLocation(latitude: Double, longitude: Double) {
-
-        Toast.makeText(this, "Location taken", Toast.LENGTH_SHORT).show()
-
-        GlobalScope.launch(Dispatchers.Main) {
-            app.location.latitude = latitude
-            app.location.longitude = longitude
-            navigatToMain()
-            this@SplashActivity.finish()
-        }
-
-//        val handler = Handler()
-//        handler.postDelayed({
-//            finish()
-//        }, 1000)
+        app.location.latitude = latitude
+        app.location.longitude = longitude
+        navigatToMain()
+        finish()
     }
 
 }

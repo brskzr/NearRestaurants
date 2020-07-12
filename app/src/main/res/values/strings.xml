@@ -13,4 +13,7 @@
     <string name="HeaderWarning">Warning</string>
     <string name="MessageLocationNotFound">Location not found, to try again click ok</string>
     <string name="MessagePleaseCheckInternetConnection">Please check internet connection</string>
+    <string name="Error">Error</string>
+    <string name="ErrorRestaurants">An error occured fetching restaurants, Do you want to refresh ?</string>
+    <string name="refresh">Refresh</string>
 </resources>

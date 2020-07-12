@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(val restaurantsService: RestaurantsServi
             val restaurantsData= restaurantsService.getRestaurants(lat, long, radius).await()
 
             if(restaurantsData.hasError){
-                mRestaurantsResult.postValue(ViewResult(restaurantsData.data, ViewResultType.Error))
+                mRestaurantsResult.postValue(ViewResult(null, ViewResultType.Error))
             }
             else{
                 mRestaurantsResult.postValue(ViewResult(restaurantsData.data, ViewResultType.Success))
