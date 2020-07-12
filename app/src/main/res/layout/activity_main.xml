@@ -14,5 +14,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/textView"
+            android:textSize="30sp"
+            android:layout_width="249dp"
+            android:layout_height="249dp"
+            android:text="TextView" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

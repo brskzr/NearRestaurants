@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.brskzr.nearrestaurants.ui.ErrorActivity
+import com.brskzr.nearrestaurants.ui.MainActivity
 
 open class BaseActivity() : AppCompatActivity() {
 
@@ -14,6 +15,12 @@ open class BaseActivity() : AppCompatActivity() {
 
     fun onError() {
         val errorIntent = Intent(this, ErrorActivity::class.java)
+        startActivity(errorIntent)
+        finish()
+    }
+
+    fun navigatToMain() {
+        val errorIntent = Intent(this, MainActivity::class.java)
         startActivity(errorIntent)
         finish()
     }

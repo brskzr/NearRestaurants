@@ -8,4 +8,9 @@
     <string name="cancel">Cancel</string>
     <string name="MessageLocationPermissionRequired">Please, allow accessing location to continue restaurants</string>
     <string name="HeaderLocationPermissionRequired">Warning</string>
+    <string name="MessageLocationPermissionSettingsRequired">Do you want to open permission settings to continue</string>
+    <string name="MessageLocationSettingsNotAllowed">Location settings not allowed, to try again click ok </string>
+    <string name="HeaderWarning">Warning</string>
+    <string name="MessageLocationNotFound">Location not found, to try again click ok</string>
+    <string name="MessagePleaseCheckInternetConnection">Please check internet connection</string>
 </resources>
