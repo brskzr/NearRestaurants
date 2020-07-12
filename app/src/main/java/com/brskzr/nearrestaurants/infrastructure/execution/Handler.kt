@@ -1,5 +1,6 @@
 package com.brskzr.nearrestaurants.infrastructure.execution
 
+import android.util.Log
 import com.brskzr.nearrestaurants.infrastructure.base.DataResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -26,6 +27,8 @@ class DefaultExecutionHandler : ExecutionHandler() {
             }
             catch (ex: Exception){
                 //Logging
+                Log.e("AppError", ex.message + ex.toString())
+
                 DataResult.Error<TResult>(
                     ""
                 )

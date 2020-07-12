@@ -1,6 +1,6 @@
 package com.brskzr.nearrestaurants.domain
 
-import com.brskzr.nearrestaurants.data.models.Restaurants
+import com.brskzr.nearrestaurants.data.models.RestaurantsData
 import com.brskzr.nearrestaurants.data.repo.RestaurantsRepository
 import com.brskzr.nearrestaurants.infrastructure.base.BaseService
 import com.brskzr.nearrestaurants.infrastructure.base.DataResult
@@ -10,10 +10,12 @@ import javax.inject.Inject
 
 class RestaurantsService @Inject constructor (val httpClientFactory: HttpClientFactory) : BaseService(){
 
-    fun getRestaurants(): Deferred<DataResult<Restaurants?>>  {
+    fun getRestaurants(lat:Double, long:Double, radius: Long): Deferred<DataResult<RestaurantsData?>>  {
         return handler.run {
             var api = httpClientFactory.create(RestaurantsRepository::class.java)
-            api.getPlaces().result()
+            val locationParam = "${lat.toString()},${long.toString()}"
+
+            api.getRestaurantPlaces(locationParam, radius).result()
         }
     }
 }

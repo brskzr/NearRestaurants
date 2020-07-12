@@ -46,7 +46,6 @@ class SplashActivity : BaseActivity() {
         locationFinder.observeSuccess({ latitude, longitude ->
             onAccessLocation(latitude, longitude)
         })
-
     }
 
     fun checkInternet() {
@@ -57,11 +56,10 @@ class SplashActivity : BaseActivity() {
             DialogUtils.alert(this,
                 resources.getString(R.string.HeaderWarning),
                 resources.getString(R.string.MessagePleaseCheckInternetConnection),
-                onOkey =  {  },
+                onOkey =  { finish() },
                 onCancel = { finish() })
 
         })
-
     }
 
 

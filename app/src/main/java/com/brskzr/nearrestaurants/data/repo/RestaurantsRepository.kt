@@ -1,13 +1,19 @@
 package com.brskzr.nearrestaurants.data.repo
 
+import com.brskzr.nearrestaurants.BuildConfig
 import com.brskzr.nearrestaurants.data.models.Restaurants
+import com.brskzr.nearrestaurants.data.models.RestaurantsData
 import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface RestaurantsRepository {
 
-    fun getPlaces() : Call<Restaurants>
+    @GET("maps/api/place/nearbysearch/json?keyword=Restaurants&key=${BuildConfig.PLACES_API_KEY}")
+    fun getRestaurantPlaces(@Query("location") location:String,
+                            @Query("radius") radius: Long) : Call<RestaurantsData>
 }
 
 
-//https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.066666,29.916668&radius=15000&type=restaurant&keyword=Restaurants&key=AIzaSyB2bBfZn3Ih2-d2Q4GQVcwJ4QYrCqwWHE8

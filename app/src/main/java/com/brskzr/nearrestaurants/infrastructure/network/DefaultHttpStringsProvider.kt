@@ -7,5 +7,6 @@ import javax.inject.Singleton
 @Singleton
 class DefaultHttpStringsProvider @Inject constructor(): HttpStringsProvider {
     override val BASE_URL: String
-        get() = BuildConfig.PLACES_API_KEY
+        get() = "https://maps.googleapis.com/" //TODO
+
 }
