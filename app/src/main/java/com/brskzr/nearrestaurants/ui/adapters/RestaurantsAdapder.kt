@@ -51,7 +51,7 @@ class RestaurantsAdapder(val restaurantsData: RestaurantsData, val onItemClick: 
             val img = view.findViewById<ImageView>(R.id.imgRestaurant)
             val tvName = view.findViewById<TextView>(R.id.tvName)
             tvName.text = item.name
-            item.photos.firstOrNull()?.let { photo ->
+            item.photos?.firstOrNull()?.let { photo ->
                 img.gooplePhoto(photo.photo_reference)
             }
         }

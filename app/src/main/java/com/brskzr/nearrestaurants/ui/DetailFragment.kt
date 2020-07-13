@@ -45,7 +45,7 @@ class DetailFragment : Fragment() {
                 ivRating.infoText = "${it.rating}/5"
                 ivUserRatingTotal.infoText = it.user_ratings_total.toString()
 
-                it.photos.firstOrNull()?.let { photo ->
+                it.photos?.firstOrNull()?.let { photo ->
                     imgRestaurant.gooplePhoto(photo.photo_reference)
                 }
             }
@@ -55,4 +55,6 @@ class DetailFragment : Fragment() {
     private fun delete() {
         TODO("Not yet implemented")
     }
+
+
 }

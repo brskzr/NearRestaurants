@@ -23,6 +23,9 @@ class RestaurantsFragment : Fragment() {
 
     lateinit var viewModel: MainViewModel
 
+    var isDataLoaded:Boolean = false
+    var currentView:View? = null
+
     val parent : MainActivity
         get() = requireActivity() as MainActivity
 
@@ -30,7 +33,15 @@ class RestaurantsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_restaurants, container, false)
+
+        if(currentView == null){
+            currentView =inflater.inflate(R.layout.fragment_restaurants, container, false)
+        }
+        else
+            isDataLoaded = true
+
+
+        return currentView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,24 +53,26 @@ class RestaurantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.restaurantsResult.observe(this, Observer {
-            if(it.viewResultType == ViewResultType.Loading){
-                parent.showLoading()
-            }else if(it.viewResultType == ViewResultType.Error) {
-                parent.hideLoading()
-                setVisibilityRefresh(true)
+        if(isDataLoaded == false) {
+            viewModel.restaurantsResult.observe(this, Observer {
+                if(it.viewResultType == ViewResultType.Loading){
+                    parent.showLoading()
+                }else if(it.viewResultType == ViewResultType.Error) {
+                    parent.hideLoading()
+                    setVisibilityRefresh(true)
 
-                val snackbar = Snackbar
-                    .make(view, getString(R.string.ErrorRestaurants), Snackbar.LENGTH_LONG)
-                snackbar.show()
-            }
-            else if(it.viewResultType == ViewResultType.Success) {
-                loadRestaurants(it.data)
-                parent.hideLoading()
-            }
-        })
+                    val snackbar = Snackbar
+                        .make(view, getString(R.string.ErrorRestaurants), Snackbar.LENGTH_LONG)
+                    snackbar.show()
+                }
+                else if(it.viewResultType == ViewResultType.Success) {
+                    loadRestaurants(it.data)
+                    parent.hideLoading()
+                }
+            })
 
-        getRestaurants()
+            getRestaurants()
+        }
     }
 
     private fun loadRestaurants(data: RestaurantsData?) {
