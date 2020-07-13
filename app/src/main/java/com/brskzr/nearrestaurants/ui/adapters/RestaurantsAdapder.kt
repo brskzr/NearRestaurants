@@ -12,6 +12,7 @@ import com.brskzr.nearrestaurants.BuildConfig
 import com.brskzr.nearrestaurants.R
 import com.brskzr.nearrestaurants.data.models.RestaurantsData
 import com.brskzr.nearrestaurants.data.models.Result
+import com.brskzr.nearrestaurants.infrastructure.utils.gooplePhoto
 import com.bumptech.glide.Glide
 import org.w3c.dom.Text
 
@@ -31,15 +32,17 @@ class RestaurantsAdapder(val restaurantsData: RestaurantsData, val onItemClick: 
     override fun onBindViewHolder(holder: RestaurantsAdapder.ViewHolder, position: Int) {
         holder.bindItems(restaurantsData.results[position])
         holder.view.setOnClickListener {
-            restaurantsData.results[position].isViewed = true
             onItemClick(restaurantsData.results[position])
             notifyDataSetChanged()
         }
 
-        if(restaurantsData.results[position].isViewed){
-            val cwRow = holder.view.findViewById<CardView>(R.id.cwRow)
-            cwRow.setBackgroundColor(cwRow.context.getColor(androidx.cardview.R.color.cardview_shadow_start_color))
-        }
+        val cwRow = holder.view.findViewById<CardView>(R.id.cwRow)
+        val bgColor = if(restaurantsData.results[position].isViewed)
+            cwRow.context.getColor(androidx.cardview.R.color.cardview_shadow_start_color)
+        else
+            cwRow.context.getColor(androidx.cardview.R.color.cardview_light_background)
+
+        cwRow.setCardBackgroundColor(bgColor)
     }
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view){
@@ -48,16 +51,8 @@ class RestaurantsAdapder(val restaurantsData: RestaurantsData, val onItemClick: 
             val img = view.findViewById<ImageView>(R.id.imgRestaurant)
             val tvName = view.findViewById<TextView>(R.id.tvName)
             tvName.text = item.name
-
-            try {
-                val photoReference = item.photos.firstOrNull()
-                photoReference?.let {
-                    val url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${it.photo_reference}&key=${BuildConfig.PLACES_API_KEY}"
-                    Glide.with(view.context).load(url).into(img)
-                }
-            }
-            catch(ex: Exception) {
-                Glide.with(view.context).load(item.icon).into(img)
+            item.photos.firstOrNull()?.let { photo ->
+                img.gooplePhoto(photo.photo_reference)
             }
         }
     }

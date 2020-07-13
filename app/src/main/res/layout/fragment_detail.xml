@@ -18,11 +18,11 @@
 
 
     <ImageView
-        android:padding="4dp"
-        android:id="@+id/ivRestaurant"
-        android:background="@drawable/bg_restaurant_image"
+        android:id="@+id/imgRestaurant"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="300dp"
+        android:background="@drawable/bg_restaurant_image"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"></ImageView>
@@ -34,10 +34,45 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivRestaurant">
+        app:layout_constraintTop_toBottomOf="@id/imgRestaurant">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.brskzr.nearrestaurants.ui.compoundviews.InfoView
+                    android:id="@+id/ivRestaurantName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:info_text=""
+                    app:label_text="@string/RestaurantName"></com.brskzr.nearrestaurants.ui.compoundviews.InfoView>
+
+                <com.brskzr.nearrestaurants.ui.compoundviews.InfoView
+                    android:id="@+id/ivRating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:info_text=""
+                    app:label_text="Rating"></com.brskzr.nearrestaurants.ui.compoundviews.InfoView>
+
+                <com.brskzr.nearrestaurants.ui.compoundviews.InfoView
+                    android:id="@+id/ivUserRatingTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:info_text=""
+                    app:label_text="Total Rating"></com.brskzr.nearrestaurants.ui.compoundviews.InfoView>
+
+                <com.brskzr.nearrestaurants.ui.compoundviews.InfoView
+                    android:id="@+id/ivVicinity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:info_text=""
+                    app:label_text="Viccinity"></com.brskzr.nearrestaurants.ui.compoundviews.InfoView>
+            </LinearLayout>
+        </ScrollView>
     </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

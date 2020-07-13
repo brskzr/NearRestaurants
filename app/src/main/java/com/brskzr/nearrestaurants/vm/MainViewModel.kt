@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.brskzr.nearrestaurants.data.models.RestaurantsData
+import com.brskzr.nearrestaurants.data.models.Result
 import com.brskzr.nearrestaurants.domain.RestaurantsService
 import com.brskzr.nearrestaurants.infrastructure.base.BaseViewModel
 import com.brskzr.nearrestaurants.infrastructure.base.ViewResult
@@ -19,6 +20,8 @@ class MainViewModel @Inject constructor(val restaurantsService: RestaurantsServi
     val restaurantsResult: LiveData<ViewResult<RestaurantsData?>>
         get() = mRestaurantsResult
 
+    private var mDetailResult : MutableLiveData<Result?> = MutableLiveData(null)
+
 
     fun getRestaurants(lat:Double, long:Double, radius: Long){
         viewModelScope.launch {
@@ -31,5 +34,13 @@ class MainViewModel @Inject constructor(val restaurantsService: RestaurantsServi
                 mRestaurantsResult.postValue(ViewResult(restaurantsData.data, ViewResultType.Success))
             }
         }
+    }
+
+    fun setDetail(result: Result) {
+        mDetailResult.postValue(result)
+    }
+
+    fun getDetail() : LiveData<Result?> {
+        return mDetailResult
     }
 }

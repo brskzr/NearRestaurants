@@ -51,7 +51,7 @@ class RestaurantsFragment : Fragment() {
 
                 val snackbar = Snackbar
                     .make(view, getString(R.string.ErrorRestaurants), Snackbar.LENGTH_LONG)
-                    snackbar.show()
+                snackbar.show()
             }
             else if(it.viewResultType == ViewResultType.Success) {
                 loadRestaurants(it.data)
@@ -80,8 +80,8 @@ class RestaurantsFragment : Fragment() {
     }
 
     private fun onItemClick(item: Result) {
-
-
+        viewModel.setDetail(item)
+        parent.navigateToDetail()
     }
 
     private fun setVisibilityRefresh(isVisible: Boolean){

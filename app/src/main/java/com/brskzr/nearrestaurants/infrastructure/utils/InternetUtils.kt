@@ -28,7 +28,7 @@ object InternetUtils {
                         val connection = URL("https://www.google.com").openConnection() as HttpURLConnection
                         connection.setRequestProperty("User-Agent", "Test")
                         connection.setRequestProperty("Connection", "close")
-                        connection.connectTimeout = 1500
+                        connection.connectTimeout = 5000
                         connection.connect()
 
                         if(connection.responseCode == 200){

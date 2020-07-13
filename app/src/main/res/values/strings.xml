@@ -16,4 +16,6 @@
     <string name="Error">Error</string>
     <string name="ErrorRestaurants">An error occured fetching restaurants, Do you want to refresh ?</string>
     <string name="refresh">Refresh</string>
+    <string name="RestaurantName">Restaurant</string>
+    <string name="detail">Detail</string>
 </resources>
