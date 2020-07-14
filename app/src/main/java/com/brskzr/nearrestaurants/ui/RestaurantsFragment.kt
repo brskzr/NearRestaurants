@@ -13,6 +13,8 @@ import com.brskzr.nearrestaurants.data.models.RestaurantsData
 import com.brskzr.nearrestaurants.data.models.Result
 import com.brskzr.nearrestaurants.infrastructure.base.ViewResultType
 import com.brskzr.nearrestaurants.infrastructure.di.app
+import com.brskzr.nearrestaurants.infrastructure.utils.DialogUtils
+import com.brskzr.nearrestaurants.infrastructure.utils.showSnackbar
 import com.brskzr.nearrestaurants.ui.adapters.RestaurantsAdapder
 import com.brskzr.nearrestaurants.vm.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +23,9 @@ import kotlinx.android.synthetic.main.fragment_restaurants.*
 
 class RestaurantsFragment : Fragment() {
 
-    lateinit var viewModel: MainViewModel
+    private val RADIUS:Long= 15000
+    private lateinit var viewModel: MainViewModel
+    private lateinit var restaurantsAdapder: RestaurantsAdapder
 
     var isDataLoaded:Boolean = false
     var currentView:View? = null
@@ -53,21 +57,22 @@ class RestaurantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        btnRefresh.setOnClickListener {
+            getRestaurants()
+        }
+
         if(isDataLoaded == false) {
             viewModel.restaurantsResult.observe(this, Observer {
-                if(it.viewResultType == ViewResultType.Loading){
+                if(it.viewResultType ==ViewResultType.Loading)
                     parent.showLoading()
-                }else if(it.viewResultType == ViewResultType.Error) {
+                else
                     parent.hideLoading()
-                    setVisibilityRefresh(true)
 
-                    val snackbar = Snackbar
-                        .make(view, getString(R.string.ErrorRestaurants), Snackbar.LENGTH_LONG)
-                    snackbar.show()
+                if(it.viewResultType == ViewResultType.Error) {
+                    requireView().showSnackbar(getString(R.string.FetchingError))
                 }
                 else if(it.viewResultType == ViewResultType.Success) {
                     loadRestaurants(it.data)
-                    parent.hideLoading()
                 }
             })
 
@@ -75,33 +80,25 @@ class RestaurantsFragment : Fragment() {
         }
     }
 
-    private fun loadRestaurants(data: RestaurantsData?) {
-        if(data?.results?.any() ?: false){
-            setVisibilityRefresh(false)
-            val adapter = RestaurantsAdapder(data!!, ::onItemClick)
-            rvRestaurants.layoutManager = LinearLayoutManager(this.activity, RecyclerView.VERTICAL, false)
-            rvRestaurants.adapter = adapter
+    private fun loadRestaurants(data: MutableList<Result>?) {
+        if(data?.any() ?: false){
+            restaurantsAdapder = RestaurantsAdapder(data!!, ::onItemClick)
+            rvRestaurants.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+            rvRestaurants.adapter = restaurantsAdapder
             rvRestaurants.setHasFixedSize(true)
         }
         else{
-            setVisibilityRefresh(true)
+            requireView().showSnackbar(getString(R.string.NoRestaurantsFound))
         }
     }
 
     private fun getRestaurants() {
-        viewModel.getRestaurants(app.location.latitude, app.location.longitude, 15000)
+        parent.showLoading()
+        viewModel.getRestaurants(app.location.latitude, app.location.longitude, RADIUS)
     }
 
     private fun onItemClick(item: Result) {
-        viewModel.setDetail(item)
+        viewModel.resultOfDetail = item
         parent.navigateToDetail()
-    }
-
-    private fun setVisibilityRefresh(isVisible: Boolean){
-        btnRefresh.visibility = if(isVisible) {
-            View.VISIBLE
-        }else{
-            View.GONE
-        }
     }
 }

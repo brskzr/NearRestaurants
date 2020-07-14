@@ -16,33 +16,41 @@ import com.brskzr.nearrestaurants.infrastructure.utils.gooplePhoto
 import com.bumptech.glide.Glide
 import org.w3c.dom.Text
 
-class RestaurantsAdapder(val restaurantsData: RestaurantsData, val onItemClick: (Result)->Unit) :
+class RestaurantsAdapder(val restaurantList: MutableList<Result>, val onItemClick: (Result)->Unit) :
     RecyclerView.Adapter<RestaurantsAdapder.ViewHolder>()
 
 {
-    var index = if(restaurantsData.results?.size ?: 0 > 0) 0 else -1
+    private var lastClickedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantsAdapder.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.row_restaurants, parent,false)
         return RestaurantsAdapder.ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = restaurantsData.results.size
+    override fun getItemCount(): Int = restaurantList.size
 
     override fun onBindViewHolder(holder: RestaurantsAdapder.ViewHolder, position: Int) {
-        holder.bindItems(restaurantsData.results[position])
+        holder.bindItems(restaurantList[position])
         holder.view.setOnClickListener {
-            onItemClick(restaurantsData.results[position])
+            lastClickedPosition = position
+            onItemClick(restaurantList[position])
+            restaurantList[position].isViewed = true
             notifyDataSetChanged()
         }
 
         val cwRow = holder.view.findViewById<CardView>(R.id.cwRow)
-        val bgColor = if(restaurantsData.results[position].isViewed)
+        val bgColor = if(restaurantList[position].isViewed)
             cwRow.context.getColor(androidx.cardview.R.color.cardview_shadow_start_color)
         else
             cwRow.context.getColor(androidx.cardview.R.color.cardview_light_background)
 
         cwRow.setCardBackgroundColor(bgColor)
+    }
+
+    fun removeItem(result: Result){
+        val position = restaurantList.indexOf(result)
+        restaurantList.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view){

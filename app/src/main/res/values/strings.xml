@@ -18,4 +18,10 @@
     <string name="refresh">Refresh</string>
     <string name="RestaurantName">Restaurant</string>
     <string name="detail">Detail</string>
+    <string name="TitleToolbar">Near Restaurants</string>
+    <string name="Confirm">Confirm</string>
+    <string name="DoYouWantToDelete">Do you want to this restaurant ?</string>
+    <string name="NoRestaurantsFound">No restaurants found</string>
+    <string name="FetchingError">An error occured while fetching</string>
+    <string name="near_restaurants">Near Restaurants</string>
 </resources>

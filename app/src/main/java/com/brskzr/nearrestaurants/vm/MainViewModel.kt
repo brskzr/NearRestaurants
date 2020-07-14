@@ -14,33 +14,30 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(val restaurantsService: RestaurantsService) : BaseViewModel() {
 
-    private var mRestaurantsResult: MutableLiveData<ViewResult<RestaurantsData?>> =
-        MutableLiveData<ViewResult<RestaurantsData?>>(ViewResult(null, ViewResultType.Loading))
+    private var mRestaurantsResult: MutableLiveData<ViewResult<MutableList<Result>?>> =
+        MutableLiveData<ViewResult<MutableList<Result>?>>(ViewResult(null, ViewResultType.Loading))
 
-    val restaurantsResult: LiveData<ViewResult<RestaurantsData?>>
+    val restaurantsResult: LiveData<ViewResult<MutableList<Result>?>>
         get() = mRestaurantsResult
 
-    private var mDetailResult : MutableLiveData<Result?> = MutableLiveData(null)
-
+    var resultOfDetail : Result? = null
 
     fun getRestaurants(lat:Double, long:Double, radius: Long){
         viewModelScope.launch {
             val restaurantsData= restaurantsService.getRestaurants(lat, long, radius).await()
 
-            if(restaurantsData.hasError){
+            if(restaurantsData.hasError || restaurantsData.hasValue.not() || (restaurantsData.data?.results?.any() ?: false).not()){
                 mRestaurantsResult.postValue(ViewResult(null, ViewResultType.Error))
             }
             else{
-                mRestaurantsResult.postValue(ViewResult(restaurantsData.data, ViewResultType.Success))
+                mRestaurantsResult.postValue(ViewResult(restaurantsData.data?.results, ViewResultType.Success))
             }
         }
     }
 
-    fun setDetail(result: Result) {
-        mDetailResult.postValue(result)
-    }
-
-    fun getDetail() : LiveData<Result?> {
-        return mDetailResult
+    fun deleteTemporaryRestaurant(deleteItem: Result) {
+        val listOfResult = mRestaurantsResult.value?.data
+        listOfResult?.remove(deleteItem)
+        mRestaurantsResult.postValue(ViewResult(listOfResult, ViewResultType.Success))
     }
 }

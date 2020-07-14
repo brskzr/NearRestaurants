@@ -2,6 +2,6 @@ package com.brskzr.nearrestaurants.data.models
 
 data class RestaurantsData(
     val html_attributions: List<Any>,
-    val results: List<Result>,
+    var results: MutableList<Result>,
     val status: String
 )

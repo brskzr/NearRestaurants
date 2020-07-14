@@ -26,6 +26,7 @@
             android:weightSum="1">
 
             <ImageView
+                android:scaleType="centerCrop"
                 android:padding="2dp"
                 android:background="@drawable/bg_restaurant_image"
                 android:id="@+id/imgRestaurant"
