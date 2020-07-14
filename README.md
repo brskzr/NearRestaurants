@@ -2,11 +2,14 @@
 
 ### Technologies ###
 
-- Dagger2
+- Kotlin
+- Android Jetpack (ViewModel, LiveData)
+- Coroutines
 - MVVM
-- Retrofit
+- Dagger2
+- Retrofit2
 - Lottie
-- Android Jetpack
+- Glide
 
 Note: 
 Add "secret.properties" file in project root directory that hold Api Key 
